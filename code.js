@@ -1,8 +1,8 @@
 /* 
-*  codificacion de un algoritmo genetico para resolver el problema de la mochila
+*  modificacion del algoritmo genetico para tener una funcion de mutacion 
 *  elaborado por Aaron Lista 
 *  C.I: 28017501
-*  Evaluacion sumativa 2 Algoritmos Geneticos 
+*  Evaluacion sumativa 3 Algoritmos Geneticos 
 */
 
 // definicion de las contantes 
@@ -99,11 +99,30 @@ function fitnessMax(){
     return max;
 } 
 
+//funcion que causara una mutacion en un individuo de las descendencia
+function mutar(descendencia){
+    let indx = 0;//indice que nos permitira seleccionar un individuo concreto
+    let indx2 = 0;//indice que nos permitira cambiar un solo alelo del genotipo del individuo seleccionado
+    indx = Math.floor((Math.random() * (16))); 
+    indx2 = Math.floor((Math.random() * (6))); 
+    console.log("mutacion en el individuo "+indx)
+    console.log("individuo no mutado")
+    console.log(descendencia[indx])
+    if(descendencia[indx][indx2]==1){
+        descendencia[indx][indx2] = 0;
+    } else {
+        descendencia[indx][indx2] = 1;
+    }
+    console.log("individuo mutado")
+    console.log(descendencia[indx])
+}
+
 //funcion que se encarga de reproducir a los mejoren individuos con individuos aleatorios de la poblacion
 function reproducir(maxFit){
     let descendencia = new Array;
     let hijo
     let madre
+    let Pm = Math.floor((Math.random() * (100 - 1 + 1)) + 1);
     padre = maxFit[0]
     maxFit.forEach(padre => {
         madre = Math.floor((Math.random() * (20)))
@@ -126,7 +145,10 @@ function reproducir(maxFit){
         hijo[3] = features[padre][3]
         descendencia.push(hijo.slice())
    });
-
+   //la mutacion solo sucedera con una probabilidad del 20% 
+   if(Pm <= 20){
+    mutar(descendencia)
+   } 
    return descendencia;
 }
 
@@ -136,7 +158,7 @@ var t = 1;
 
 // ciclo principal en donde se ejecutan todas las funciones
 do{
-    let a = 3;
+    let a = 4;
     console.log("generacion: "+ t);
     console.log("individuos");
     console.log(features);
@@ -169,7 +191,7 @@ do{
     t++;
 
 
-}while(t<=10)
+}while(t<=20)
 
 
 
